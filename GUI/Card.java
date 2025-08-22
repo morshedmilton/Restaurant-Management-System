@@ -1,173 +1,100 @@
 package GUI;
-import java.lang.*;
-import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 import Customerfile.*;
 
-public class Card extends JFrame implements MouseListener, ActionListener{
-	JPanel panel;
-	JLabel nameLabel,background,paymentLabel,cardNumberLabel,cvvLabel,experitionLabel,cardLabel;
-	JButton processBtn, closeBtn;
-	JTextField nameTF,cardNumberTF,expTF;
-	JPasswordField cvvTF;
-	Color myColor1;
-	Font myFont,myFont1;
-	ImageIcon icon1 = new ImageIcon ("images/Register.jpg");
-	ImageIcon icon2 = new ImageIcon ("images/card1.jpg");
-	customer c;
-	customers cs;
-	
-	public Card(customers cs){
-		super("Card");
-		this.setSize(1000,600);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLocationRelativeTo(null); 
-		this.cs=cs;
-		
-		myColor1 = new Color(0,0,139);
-		myFont = new Font("Century",Font.BOLD, 20);
-		myFont1 = new Font("Times New Roman",Font.PLAIN,16);
-		
-		panel = new JPanel();
-		panel.setLayout(null);
-		panel.setBackground(myColor1);
-		panel.setOpaque (false);
-		this.add (panel);
-		
-		paymentLabel = new JLabel("Card Payment"); 
-		paymentLabel.setBounds(430,80,150,50);
-		paymentLabel.setForeground(Color.WHITE);
-		paymentLabel.setFont(myFont);
-		panel.add(paymentLabel);
-		
-		cardLabel = new JLabel(icon2); 
-		cardLabel.setBounds(400,140,200,100);
-		panel.add(cardLabel);
-		
-		cardNumberLabel = new JLabel("Card Number"); 
-		cardNumberLabel.setBounds(220,260,150,30);
-		cardNumberLabel.setForeground(Color.WHITE);
-		cardNumberLabel.setFont(myFont1);
-		panel.add(cardNumberLabel);
-		
-		cvvLabel = new JLabel("CVC "); 
-		cvvLabel.setBounds(670,260,50,30);
-		cvvLabel.setForeground(Color.WHITE);
-		cvvLabel.setFont(myFont1);
-		panel.add(cvvLabel);
-		
-		nameLabel = new JLabel("Card Holder Name"); 
-		nameLabel.setBounds(200,310,150,30);
-		nameLabel.setForeground(Color.WHITE);
-		nameLabel.setFont(myFont1);
-		panel.add(nameLabel);
-		
-		experitionLabel = new JLabel("Experition Date"); 
-		experitionLabel.setBounds(200,360,150,30);
-		experitionLabel.setForeground(Color.WHITE);
-		experitionLabel.setFont(myFont1);
-		panel.add(experitionLabel);
-		
-		
-		nameTF = new JTextField ();
-		nameTF.setBounds(350, 310, 350, 30);
-		nameTF.setFont(myFont1);
-		panel.add(nameTF);
-		
-		cardNumberTF = new JTextField ();
-		cardNumberTF.setBounds(350, 260, 300, 30);
-		cardNumberTF.setFont(myFont1);
-		panel.add(cardNumberTF);
-		
-		cvvTF = new JPasswordField ();
-		cvvTF.setBounds(720, 260, 120, 30);
-		cvvTF.setEchoChar('*');
-		cvvTF.setFont(myFont1);
-		panel.add(cvvTF);
-		
-		expTF = new JTextField ();
-		expTF.setBounds(350, 360, 350, 30);
-		expTF.setFont(myFont1);
-		panel.add(expTF);
-		
-		processBtn = new JButton("Process");
-		processBtn.setBounds(450,440, 100, 40);
-		processBtn.setForeground(Color.BLACK);
-		processBtn.setFont(myFont1);
-		processBtn.setOpaque(true);
-		processBtn.addMouseListener(this);
-		processBtn.addActionListener(this);
-		panel.add(processBtn);
-		
-		
-		closeBtn = new JButton("Close");
-		closeBtn.setBounds(590,440, 100, 40);
-		closeBtn.setForeground(Color. BLACK);
-		closeBtn.setFont(myFont1);
-		closeBtn.addMouseListener(this);
-		closeBtn.addActionListener(this);
-		closeBtn.setOpaque(true);
-		panel.add(closeBtn);
-		
-		
-		this.add(panel);
-		this.setVisible(true);
-		
-		background = new JLabel (icon1);
-		background.setBounds (0,0,1000,600);
-		panel.add(background);
-		
-	}
-	
-	public void mouseClicked(MouseEvent me){}  
-	public void mouseEntered(MouseEvent me){
-		if(me.getSource() == processBtn){
-			processBtn.setBackground(myColor1);
-			processBtn.setForeground(Color.WHITE);
-		}else if(me.getSource() == closeBtn){
-			closeBtn.setBackground(myColor1);
-			closeBtn.setForeground(Color.WHITE);
-		}else{}
-	}  
-	public void mouseExited(MouseEvent me){
-		if(me.getSource() == processBtn){
-			processBtn.setBackground(Color.BLUE);
-			processBtn.setForeground(Color.WHITE);
-		}else if(me.getSource() == closeBtn){
-			closeBtn.setBackground(Color.BLUE);
-			closeBtn.setForeground(Color.WHITE);
-		}else{}
-	}  
-	public void mousePressed(MouseEvent me){}  
-	public void mouseReleased(MouseEvent me){} 
-
-	public void actionPerformed(ActionEvent ae){
-		String command = ae.getActionCommand();
-		if(processBtn.getText().equals(command)){
-			String cardNumber = "",exp="",name="",cvv="";
-			
-			cardNumber = cardNumberTF.getText();
-			exp = expTF.getText();
-			name=nameTF.getText();
-			cvv = cvvTF.getText();
-			if(!cardNumber.isEmpty()&&!exp.isEmpty()&&!cvv.isEmpty()&&!name.isEmpty() ){
-				
-					JOptionPane.showMessageDialog(this,"Payment successful.");
-					Order od = new Order (cs);
-			        od.setVisible(true);
-			        this.setVisible(false);
-				}else{
-					JOptionPane.showMessageDialog(this,"Please fill up your payment information.");
-				}
-			}
-		else if (closeBtn.getText().equals (command)){
-			Payment pa = new Payment (cs);
-			this.setVisible(false);
-			pa.setVisible (true);
-		}else{
-				JOptionPane.showMessageDialog(this,"Phone number and pin incorrect.");
-			}
-	}
-	
+public class Card extends JFrame implements ActionListener {
+    private JTextField nameTF, cardNumberTF, expTF;
+    private JPasswordField cvvTF;
+    private customers cs;
+    public Card(customers cs) {
+        super("Card Payment");
+        this.setSize(1000, 700);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.cs = cs;
+        ImagePanel panel = new ImagePanel("images/Background.jpg");
+        this.setContentPane(panel);
+        JPanel formPanel = new JPanel();
+        formPanel.setBounds(250, 120, 500, 460);
+        formPanel.setBackground(new Color(0, 0, 0, 120));
+        formPanel.setLayout(null);
+        panel.add(formPanel);
+        JLabel paymentLabel = new JLabel("Card Payment");
+        paymentLabel.setBounds(0, 30, 500, 50);
+        paymentLabel.setForeground(Color.WHITE);
+        paymentLabel.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        paymentLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        formPanel.add(paymentLabel);
+        JLabel nameLabel = new JLabel("Cardholder Name:");
+        nameLabel.setBounds(50, 100, 150, 30);
+        nameLabel.setForeground(Color.WHITE);
+        nameLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        formPanel.add(nameLabel);
+        nameTF = new JTextField();
+        nameTF.setBounds(50, 130, 400, 35);
+        nameTF.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        formPanel.add(nameTF);
+        JLabel cardNumberLabel = new JLabel("Card Number:");
+        cardNumberLabel.setBounds(50, 180, 150, 30);
+        cardNumberLabel.setForeground(Color.WHITE);
+        cardNumberLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        formPanel.add(cardNumberLabel);
+        cardNumberTF = new JTextField();
+        cardNumberTF.setBounds(50, 210, 400, 35);
+        cardNumberTF.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        formPanel.add(cardNumberTF);
+        JLabel expLabel = new JLabel("Expiry Date (MM/YY):");
+        expLabel.setBounds(50, 260, 180, 30);
+        expLabel.setForeground(Color.WHITE);
+        expLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        formPanel.add(expLabel);
+        expTF = new JTextField();
+        expTF.setBounds(50, 290, 180, 35);
+        expTF.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        formPanel.add(expTF);
+        JLabel cvvLabel = new JLabel("CVV:");
+        cvvLabel.setBounds(270, 260, 50, 30);
+        cvvLabel.setForeground(Color.WHITE);
+        cvvLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        formPanel.add(cvvLabel);
+        cvvTF = new JPasswordField();
+        cvvTF.setBounds(270, 290, 180, 35);
+        cvvTF.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        formPanel.add(cvvTF);
+        JButton processBtn = new JButton("Process Payment");
+        processBtn.setBounds(50, 370, 190, 40);
+        processBtn.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        processBtn.setBackground(new Color(46, 204, 113));
+        processBtn.setForeground(Color.WHITE);
+        processBtn.addActionListener(this);
+        formPanel.add(processBtn);
+        JButton closeBtn = new JButton("Cancel");
+        closeBtn.setBounds(260, 370, 190, 40);
+        closeBtn.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        closeBtn.setBackground(new Color(149, 165, 166));
+        closeBtn.setForeground(Color.WHITE);
+        closeBtn.addActionListener(this);
+        formPanel.add(closeBtn);
+    }
+    public void actionPerformed(ActionEvent ae) {
+        String command = ae.getActionCommand();
+        if (command.equals("Process Payment")) {
+            String cvv = new String(cvvTF.getPassword());
+            if (!nameTF.getText().isEmpty() && !cardNumberTF.getText().isEmpty() && !expTF.getText().isEmpty() && !cvv.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Payment successful.");
+                Order od = new Order(cs);
+                od.setVisible(true);
+                this.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Payment Error", JOptionPane.WARNING_MESSAGE);
+            }
+        } else if (command.equals("Cancel")) {
+            Payment pa = new Payment(cs);
+            this.setVisible(false);
+            pa.setVisible(true);
+        }
+    }
 }

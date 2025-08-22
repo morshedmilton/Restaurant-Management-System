@@ -1,86 +1,44 @@
 package GUI;
-import java.lang.*;
-import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 import Customerfile.*;
 
-public class Order extends JFrame implements MouseListener, ActionListener{
-	JPanel panel;
-	JLabel orderLabel,background;;
-	JButton  backBtn;
-	Color myColor1,myColor;
-	Font myFont,myFont1;
-	ImageIcon icon1 = new ImageIcon ("images/Register.jpg");
-	customer c;
-	customers cs;
-	
-	public Order(customers cs){
-		super("Order");
-		this.setSize(1000,600);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLocationRelativeTo(null); 
-		this.cs=cs;
-		
-		myColor = new Color(255,140,0);
-		myColor1 = new Color(0,0,139);
-		myFont = new Font("Century",Font.BOLD, 24);
-		myFont1 = new Font("Times New Roman",Font.PLAIN,16);
-		panel = new JPanel();
-		panel.setLayout(null);
-		panel.setBackground(myColor1);
-		panel.setOpaque (false);
-		this.add (panel);
-		
-		orderLabel = new JLabel("Order done!"); 
-		orderLabel.setBounds(390,250,150,50);
-		orderLabel.setForeground(myColor);
-		orderLabel.setOpaque(false);
-		orderLabel.setFont(myFont);
-		panel.add(orderLabel);
-		
-		
-		backBtn = new JButton("Back To Menu");
-		backBtn.setBounds(650,450, 200, 40);
-		backBtn.setForeground(Color.BLACK);
-		backBtn.setFont(myFont1);
-		backBtn.addMouseListener(this);
-		backBtn.addActionListener(this);
-		backBtn.setOpaque(true);
-		panel.add(backBtn);
-		
-		
-		this.add(panel);
-		this.setVisible(true);
-		
-		background = new JLabel (icon1);
-		background.setBounds (0,0,1000,600);
-		panel.add(background);
-		
-	}
-	
-	public void mouseClicked(MouseEvent me){}  
-	public void mouseEntered(MouseEvent me){
-		if(me.getSource() == backBtn){
-			backBtn.setBackground(myColor1);
-			backBtn.setForeground(Color.WHITE);
-		}else{}
-	}  
-	public void mouseExited(MouseEvent me){
-		if(me.getSource() == backBtn){
-			backBtn.setBackground(Color.BLUE);
-			backBtn.setForeground(Color.WHITE);
-		}else{}
-	}  
-	public void mousePressed(MouseEvent me){}  
-	public void mouseReleased(MouseEvent me){} 
-
-	public void actionPerformed(ActionEvent ae){
-		String command = ae.getActionCommand();
-		if(backBtn.getText().equals(command)){
-			Menu mn = new Menu(cs);
-			mn.setVisible(true);
-			this.setVisible(false);
-		}
-	}
+public class Order extends JFrame implements ActionListener {
+    private customers cs;
+    public Order(customers cs) {
+        super("Order Confirmation");
+        this.setSize(1000, 700);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.cs = cs;
+        ImagePanel panel = new ImagePanel("images/Background.jpg");
+        this.setContentPane(panel);
+        JPanel contentPanel = new JPanel();
+        contentPanel.setBounds(150, 200, 700, 300);
+        contentPanel.setBackground(new Color(0, 0, 0, 120));
+        contentPanel.setLayout(null);
+        panel.add(contentPanel);
+        JLabel orderLabel = new JLabel("Order Placed Successfully!");
+        orderLabel.setBounds(0, 80, 700, 50);
+        orderLabel.setForeground(Color.WHITE);
+        orderLabel.setFont(new Font("Segoe UI", Font.BOLD, 32));
+        orderLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        contentPanel.add(orderLabel);
+        JButton backBtn = new JButton("Back to Menu");
+        backBtn.setBounds(250, 180, 200, 50);
+        backBtn.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        backBtn.setBackground(new Color(52, 152, 219));
+        backBtn.setForeground(Color.WHITE);
+        backBtn.addActionListener(this);
+        contentPanel.add(backBtn);
+    }
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getActionCommand().equals("Back to Menu")) {
+            Menu mn = new Menu(cs);
+            mn.setVisible(true);
+            this.dispose();
+        }
+    }
 }
